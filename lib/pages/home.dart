@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picklebyte/pages/details_page.dart';
 import 'package:picklebyte/widgets/helper_widget.dart';
 
 class Home extends StatefulWidget {
@@ -67,42 +68,47 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: Material(
-                      elevation: 4,
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.black12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              "assets/images/salad2.png",
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Text(
-                              "Veggie Pickle",
-                              style: HelperWidget.semiBoldTextStyle(),
-                            ),
-                            Text(
-                              "Healthy and Fresh",
-                              style: HelperWidget.lightTextStyle(),
-                            ),
-                            Text(
-                              "₹ 50",
-                              style: HelperWidget.semiBoldTextStyle(),
-                            ),
-                          ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailsScreen(),),);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      child: Material(
+                        elevation: 4,
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.black,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.black12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                "assets/images/salad2.png",
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                              Text(
+                                "Veggie Pickle",
+                                style: HelperWidget.semiBoldTextStyle(),
+                              ),
+                              Text(
+                                "Healthy and Fresh",
+                                style: HelperWidget.lightTextStyle(),
+                              ),
+                              Text(
+                                "₹ 50",
+                                style: HelperWidget.semiBoldTextStyle(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -206,6 +212,7 @@ class _HomeState extends State<Home> {
                       color: Colors.black,
                     ),
                     borderRadius: BorderRadius.circular(12),
+                    color: Colors.black12,
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

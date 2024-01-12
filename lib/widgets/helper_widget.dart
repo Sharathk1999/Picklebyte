@@ -4,7 +4,7 @@ class HelperWidget {
   static TextStyle boldTextStyle() {
     return const TextStyle(
       color: Colors.black,
-      fontSize: 20,
+      fontSize: 22,
       fontWeight: FontWeight.w600,
       fontFamily: "Lato",
     );
@@ -38,7 +38,7 @@ class HelperWidget {
   static TextStyle semiBoldTextStyle() {
     return const TextStyle(
       color: Colors.black,
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: FontWeight.w600,
       fontFamily: "Lato",
     );
