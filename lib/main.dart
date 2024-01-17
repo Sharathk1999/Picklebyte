@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:picklebyte/pages/bottom_nav_bar.dart';
+import 'package:picklebyte/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const BottomNavBar(),
+      home: const LoginPage(),
     );
   }
 }
