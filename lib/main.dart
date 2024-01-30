@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:picklebyte/pages/login_page.dart';
+import 'package:picklebyte/pages/onboard_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +14,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Picklebyte',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const OnboardPage(),
     );
   }
 }

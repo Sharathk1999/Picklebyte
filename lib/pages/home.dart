@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
       body: Container(
         margin: const EdgeInsets.only(
           top: 52,
-          left: 15,
+          left: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
                   style: HelperWidget.boldTextStyle(),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(right: 10),
+                  margin: const EdgeInsets.only(right: 10,top: 5),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       border: Border.all(width: 1),
@@ -62,203 +62,28 @@ class _HomeState extends State<Home> {
               child: showItems(),
             ),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailsScreen(),),);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      child: Material(
-                        elevation: 4,
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.black,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.black12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                "assets/images/salad2.png",
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              ),
-                              Text(
-                                "Veggie Pickle",
-                                style: HelperWidget.semiBoldTextStyle(),
-                              ),
-                              Text(
-                                "Healthy and Fresh",
-                                style: HelperWidget.lightTextStyle(),
-                              ),
-                              Text(
-                                "₹ 50",
-                                style: HelperWidget.semiBoldTextStyle(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: Material(
-                      elevation: 4,
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.black12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              "assets/images/salad2.png",
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Text(
-                              "Veggie Pickle",
-                              style: HelperWidget.semiBoldTextStyle(),
-                            ),
-                            Text(
-                              "Healthy and Fresh",
-                              style: HelperWidget.lightTextStyle(),
-                            ),
-                            Text(
-                              "₹ 50",
-                              style: HelperWidget.semiBoldTextStyle(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: Material(
-                      elevation: 4,
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.black12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              "assets/images/salad2.png",
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Text(
-                              "Veggie Pickle",
-                              style: HelperWidget.semiBoldTextStyle(),
-                            ),
-                            Text(
-                              "Healthy and Fresh",
-                              style: HelperWidget.lightTextStyle(),
-                            ),
-                            Text(
-                              "₹ 50",
-                              style: HelperWidget.semiBoldTextStyle(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                children: List.generate(4, (index) {
+                  return const FoodCard();
+                }),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: Material(
-                elevation: 4,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.black12,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        "assets/images/salad4.png",
-                        height: 100,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Text(
-                              "Raw mango pickle from kuttanadu",
-                              style: HelperWidget.semiBoldTextStyle(),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 2.5,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Text(
-                              "Native mango",
-                              style: HelperWidget.lightTextStyle(),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Text(
-                              "₹ 60",
-                              style: HelperWidget.lightTextStyle(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  return const FoodCustomTile();
+                },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -390,3 +215,132 @@ class _HomeState extends State<Home> {
   }
 }
 
+class FoodCustomTile extends StatelessWidget {
+  const FoodCustomTile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10,bottom: 15),
+      child: Material(
+        elevation: 4,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 0.5,
+              color: Colors.black,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.grey.shade100,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(
+                "assets/images/salad4.png",
+                height: 100,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Text(
+                      "Raw mango pickle from kuttanadu",
+                      style: HelperWidget.semiBoldTextStyle(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 2.5,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Text(
+                      "Native mango",
+                      style: HelperWidget.lightTextStyle(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Text(
+                      "₹ 60",
+                      style: HelperWidget.lightTextStyle(),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FoodCard extends StatelessWidget {
+  const FoodCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DetailsScreen(),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        child: Material(
+          elevation: 4,
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                border: Border.all(
+                  width: 0.5,
+                  color: Colors.black,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.grey.shade100),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset(
+                  "assets/images/salad2.png",
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.cover,
+                ),
+                Text(
+                  "Veggie Pickle",
+                  style: HelperWidget.semiBoldTextStyle(),
+                ),
+                Text(
+                  "Healthy and Fresh",
+                  style: HelperWidget.lightTextStyle(),
+                ),
+                Text(
+                  "₹ 50",
+                  style: HelperWidget.semiBoldTextStyle(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

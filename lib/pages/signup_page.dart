@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:picklebyte/core/colors.dart';
-import 'package:picklebyte/pages/signup_page.dart';
+import 'package:picklebyte/pages/login_page.dart';
 import 'package:picklebyte/widgets/helper_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  String email = "", password = "";
+class _SignUpState extends State<SignUp> {
+  String email = "", password = "", name = "";
+
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
 
-  TextEditingController useremailcontroller = TextEditingController();
-  TextEditingController userpasswordcontroller = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+    emailController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +39,11 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 2.5,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: gradientColors,
-                ),
-              ),
+              decoration:  BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors:gradientColors,),),
             ),
             Container(
               margin:
@@ -42,10 +51,12 @@ class _LoginPageState extends State<LoginPage> {
               height: MediaQuery.of(context).size.height / 2,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40))),
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
+              ),
               child: const Text(""),
             ),
             Container(
@@ -77,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.6,
+                      height: MediaQuery.of(context).size.height / 1.8,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20)),
@@ -89,28 +100,38 @@ class _LoginPageState extends State<LoginPage> {
                               height: 30.0,
                             ),
                             Text(
-                              "Login",
+                              "Sign up",
                               style: HelperWidget.headerTextStyle(),
                             ),
                             const SizedBox(
                               height: 30.0,
                             ),
                             TextFormField(
-                              controller: useremailcontroller,
+                              controller: nameController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
+                                  return 'Please enter name';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
-                                  errorStyle: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontSize: 12,
-                                    color: Colors.red[800],
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10)),
+                                  hintText: 'Name',
+                                  hintStyle: HelperWidget.semiBoldTextStyle(),
+                                  prefixIcon:
+                                      const Icon(Icons.person_outlined)),
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            TextFormField(
+                              controller: emailController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter e-mail';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
                                   hintText: 'Email',
                                   hintStyle: HelperWidget.semiBoldTextStyle(),
                                   prefixIcon: const Icon(Icons.email_outlined)),
@@ -119,51 +140,25 @@ class _LoginPageState extends State<LoginPage> {
                               height: 30.0,
                             ),
                             TextFormField(
-                              controller: userpasswordcontroller,
+                              controller: passwordController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please Enter Password';
+                                  return 'Please enter password';
                                 }
                                 return null;
                               },
                               obscureText: true,
                               decoration: InputDecoration(
-                                  errorStyle: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontSize: 12,
-                                    color: Colors.red[800],
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10)),
                                   hintText: 'Password',
                                   hintStyle: HelperWidget.semiBoldTextStyle(),
                                   prefixIcon:
                                       const Icon(Icons.password_outlined)),
                             ),
                             const SizedBox(
-                              height: 20.0,
+                              height: 80.0,
                             ),
                             GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    "Forgot Password?",
-                                    style: HelperWidget.semiBoldTextStyle(),
-                                  )),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height / 20,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (_formkey.currentState!.validate()) {
-                                  setState(() {
-                                    email = useremailcontroller.text;
-                                    password = userpasswordcontroller.text;
-                                  });
-                                }
-                              },
+                              onTap: () async {},
                               child: Material(
                                 elevation: 5.0,
                                 borderRadius: BorderRadius.circular(20),
@@ -175,14 +170,15 @@ class _LoginPageState extends State<LoginPage> {
                                       color: btnColor,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: const Center(
-                                      child: Text(
-                                    "Login",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18.0,
-                                        fontFamily: 'Lato',
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                                    child: Text(
+                                      "Sign up",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18.0,
+                                          fontFamily: 'Lato',
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -198,12 +194,12 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const SignUp(),
+                          builder: (context) => const LoginPage(),
                         ),
                       );
                     },
                     child: Text(
-                      "Don't have an account? Sign up",
+                      "Already have an account? Login",
                       style: HelperWidget.semiBoldTextStyle(),
                     ),
                   ),
