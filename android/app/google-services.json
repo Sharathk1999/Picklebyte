@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "873456295700",
+    "project_id": "yumbyte",
+    "storage_bucket": "yumbyte.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873456295700:android:3199634f9da6b4b1426c01",
+        "android_client_info": {
+          "package_name": "com.example.yumbite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmFxU8L9qsC_fwGZqglE4p4-mEGfAhZmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:picklebyte/pages/details_page.dart';
-import 'package:picklebyte/widgets/helper_widget.dart';
+import 'package:yumbite/pages/details_page.dart';
+import 'package:yumbite/widgets/helper_widget.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -47,11 +47,11 @@ class _HomeState extends State<Home> {
               height: 20,
             ),
             Text(
-              "Tasty Pickles",
+              "Tasty Foods",
               style: HelperWidget.headerTextStyle(),
             ),
             Text(
-              "Your one-stop shop for all things pickled.",
+              "Your one-stop shop for all things Yummy.",
               style: HelperWidget.lightTextStyle(),
             ),
             const SizedBox(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:picklebyte/core/colors.dart';
-import 'package:picklebyte/core/onboarding_data.dart';
-import 'package:picklebyte/pages/signup_page.dart';
-import 'package:picklebyte/widgets/helper_widget.dart';
+import 'package:yumbite/core/colors.dart';
+import 'package:yumbite/core/onboarding_data.dart';
+import 'package:yumbite/pages/signup_page.dart';
+import 'package:yumbite/widgets/helper_widget.dart';
 
 class OnboardPage extends StatefulWidget {
   const OnboardPage({super.key});

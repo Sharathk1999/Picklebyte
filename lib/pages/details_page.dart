@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:picklebyte/widgets/helper_widget.dart';
+import 'package:yumbite/widgets/helper_widget.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});

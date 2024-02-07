@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:picklebyte/pages/home.dart';
-import 'package:picklebyte/pages/order.dart';
-import 'package:picklebyte/pages/profile.dart';
-import 'package:picklebyte/pages/wallet_page.dart';
+import 'package:yumbite/pages/home.dart';
+import 'package:yumbite/pages/order.dart';
+import 'package:yumbite/pages/profile.dart';
+import 'package:yumbite/pages/wallet_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});

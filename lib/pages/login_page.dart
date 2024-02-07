@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:picklebyte/core/colors.dart';
-import 'package:picklebyte/pages/signup_page.dart';
-import 'package:picklebyte/widgets/helper_widget.dart';
+import 'package:yumbite/core/colors.dart';
+import 'package:yumbite/pages/signup_page.dart';
+import 'package:yumbite/widgets/helper_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LoginPage extends StatefulWidget {
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                       baseColor: Colors.white,
                       highlightColor: const Color.fromARGB(255, 224, 225, 231),
                       child: const Text(
-                        "PickleByte",
+                        "YumByte",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
@@ -113,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                                       borderRadius: BorderRadius.circular(10)),
                                   hintText: 'Email',
                                   hintStyle: HelperWidget.semiBoldTextStyle(),
-                                  prefixIcon: const Icon(Icons.email_outlined)),
+                                  prefixIcon: const Icon(CupertinoIcons.mail,),),
                             ),
                             const SizedBox(
                               height: 30.0,
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                                   hintText: 'Password',
                                   hintStyle: HelperWidget.semiBoldTextStyle(),
                                   prefixIcon:
-                                      const Icon(Icons.password_outlined)),
+                                      const Icon(CupertinoIcons.padlock,),),
                             ),
                             const SizedBox(
                               height: 20.0,
