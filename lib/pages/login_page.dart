@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yumbite/core/colors.dart';
 import 'package:yumbite/pages/bottom_nav_bar.dart';
+import 'package:yumbite/pages/password_forgot_page.dart';
 import 'package:yumbite/pages/signup_page.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
@@ -224,7 +225,9 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             //for forgot password func
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PasswordForgotPage(),));
+                              },
                               child: Container(
                                   alignment: Alignment.topRight,
                                   child: Text(

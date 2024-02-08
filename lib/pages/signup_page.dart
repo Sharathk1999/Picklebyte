@@ -258,7 +258,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                             const SizedBox(
-                              height: 40.0,
+                              height: 80.0,
                             ),
                             //signUp button with form validation & user-registration
                             GestureDetector(
