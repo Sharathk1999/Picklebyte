@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'yumbite',
       theme: ThemeData(
-        
         useMaterial3: true,
       ),
       home: const OnboardPage(),
