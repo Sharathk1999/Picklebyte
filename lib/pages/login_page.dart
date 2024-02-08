@@ -1,9 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:yumbite/core/colors.dart';
+import 'package:yumbite/pages/bottom_nav_bar.dart';
 import 'package:yumbite/pages/signup_page.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,12 +17,66 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //credentials for user login
   String email = "", password = "";
 
-  final _formkey = GlobalKey<FormState>();
+  //key for managing the form state
+  final _formKey = GlobalKey<FormState>();
 
-  TextEditingController useremailcontroller = TextEditingController();
-  TextEditingController userpasswordcontroller = TextEditingController();
+  //controller for handling user mail/pass
+  TextEditingController userEmailController = TextEditingController();
+  TextEditingController userPasswordController = TextEditingController();
+
+  //user login
+  void loginUser() async {
+    try {
+      UserCredential credential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green.shade300,
+            content:  const Text(
+              "Welcome home user 😍🤗.",
+              style: TextStyle(fontFamily: 'Lato', fontSize: 18),
+            ),
+          ),
+        );
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const BottomNavBar(),));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red.shade300,
+            content: const Text(
+              "User not found in the database.",
+              style: TextStyle(fontFamily: 'Lato', fontSize: 18),
+            ),
+          ),
+        );
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red.shade300,
+            content: const Text(
+              "Wrong password provided for the user.",
+              style: TextStyle(fontFamily: 'Lato', fontSize: 18),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  //dispose method to avoid memory leak
+  @override
+  void dispose() {
+    super.dispose();
+    userEmailController.dispose();
+    userPasswordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
+            //background  gradient red container
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 2.5,
@@ -37,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+            //2nd background white container
             Container(
               margin:
                   EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
@@ -49,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                       topRight: Radius.circular(40))),
               child: const Text(""),
             ),
+            //foreground white container for login
             Container(
               margin: const EdgeInsets.only(top: 60.0, left: 20.0, right: 20.0),
               child: Column(
@@ -72,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 50.0,
                   ),
+                  //login card
                   Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.circular(20),
@@ -83,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20)),
                       child: Form(
-                        key: _formkey,
+                        key: _formKey,
                         child: Column(
                           children: [
                             const SizedBox(
@@ -96,54 +158,71 @@ class _LoginPageState extends State<LoginPage> {
                             const SizedBox(
                               height: 30.0,
                             ),
+                            //TextFormField for E-mail
                             TextFormField(
-                              controller: useremailcontroller,
+                              controller: userEmailController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
+                                  return 'please enter your email';
                                 }
                                 return null;
                               },
+                              style: const TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 16,
+                                  decoration: TextDecoration.none),
+                             
                               decoration: InputDecoration(
-                                  errorStyle: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontSize: 12,
-                                    color: Colors.red[800],
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  hintText: 'Email',
-                                  hintStyle: HelperWidget.semiBoldTextStyle(),
-                                  prefixIcon: const Icon(CupertinoIcons.mail,),),
+                                errorStyle: const TextStyle(fontFamily: 'Lato'),
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: btnColor.withOpacity(0.2),
+                                hintText: 'Email',
+                                hintStyle: HelperWidget.semiBoldTextStyle(),
+                                prefixIcon: const Icon(
+                                  CupertinoIcons.mail,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               height: 30.0,
                             ),
+                            //TextFormField for password
                             TextFormField(
-                              controller: userpasswordcontroller,
+                              controller: userPasswordController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please Enter Password';
+                                  return 'please enter your password';
                                 }
                                 return null;
                               },
                               obscureText: true,
+                              style: const TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 16,
+                                  decoration: TextDecoration.none),
                               decoration: InputDecoration(
-                                  errorStyle: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontSize: 12,
-                                    color: Colors.red[800],
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  hintText: 'Password',
-                                  hintStyle: HelperWidget.semiBoldTextStyle(),
-                                  prefixIcon:
-                                      const Icon(CupertinoIcons.padlock,),),
+                                errorStyle: const TextStyle(fontFamily: 'Lato'),
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: btnColor.withOpacity(0.2),
+                                hintText: 'Password',
+                                hintStyle: HelperWidget.semiBoldTextStyle(),
+                                prefixIcon: const Icon(
+                                  CupertinoIcons.padlock,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               height: 20.0,
                             ),
+                            //for forgot password func
                             GestureDetector(
                               onTap: () {},
                               child: Container(
@@ -156,14 +235,16 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height / 20,
                             ),
+                            //Login btn for form validation and user login
                             GestureDetector(
                               onTap: () {
-                                if (_formkey.currentState!.validate()) {
+                                if (_formKey.currentState!.validate()) {
                                   setState(() {
-                                    email = useremailcontroller.text;
-                                    password = userpasswordcontroller.text;
+                                    email = userEmailController.text.trim();
+                                    password = userPasswordController.text.trim();
                                   });
                                 }
+                                loginUser();
                               },
                               child: Material(
                                 elevation: 5.0,
@@ -195,6 +276,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 70.0,
                   ),
+                  //for redirecting to signUp for creating account
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(

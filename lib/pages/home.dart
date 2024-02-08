@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yumbite/core/colors.dart';
 import 'package:yumbite/pages/details_page.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
@@ -25,17 +26,19 @@ class _HomeState extends State<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                //hello with username
                 Text(
                   "Hello Sharath",
                   style: HelperWidget.boldTextStyle(),
                 ),
+                //cart icon to visit cart
                 Container(
                   margin: const EdgeInsets.only(right: 10,top: 5),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      border: Border.all(width: 1),
+                      border: Border.all(width: 1,color: btnColor.withOpacity(0.5,)),
                       borderRadius: BorderRadius.circular(50),
-                      color: Colors.black12),
+                      color: btnColor.withOpacity(0.3,),),
                   child: const Icon(
                     Icons.shopping_cart_rounded,
                     color: Colors.black,
@@ -46,6 +49,7 @@ class _HomeState extends State<Home> {
             const SizedBox(
               height: 20,
             ),
+            //welcome heading
             Text(
               "Tasty Foods",
               style: HelperWidget.headerTextStyle(),
@@ -57,6 +61,7 @@ class _HomeState extends State<Home> {
             const SizedBox(
               height: 10,
             ),
+            //displaying category 
             Container(
               margin: const EdgeInsets.only(right: 10),
               child: showItems(),
@@ -64,6 +69,7 @@ class _HomeState extends State<Home> {
             const SizedBox(
               height: 15,
             ),
+            //ready to order foods
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -110,14 +116,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                      width: 1, color: iceCream ? Colors.white : Colors.black),
+                      width: 1, color: iceCream ? btnColor : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: iceCream ? Colors.black : Colors.black12),
+                  color: iceCream ? Colors.black : btnColor.withOpacity(0.3)),
               child: Image.asset(
                 "assets/images/ice-cream.png",
                 height: 30,
                 width: 30,
-                color: iceCream ? Colors.white : Colors.black,
+                color: iceCream ? btnColor : Colors.black,
                 fit: BoxFit.cover,
               ),
             ),
@@ -139,14 +145,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                      width: 1, color: burger ? Colors.white : Colors.black),
+                       width: 1, color: burger ? btnColor : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: burger ? Colors.black : Colors.black12),
+                  color: burger ? Colors.black : btnColor.withOpacity(0.3,),),
               child: Image.asset(
                 "assets/images/burger.png",
                 height: 30,
                 width: 30,
-                color: burger ? Colors.white : Colors.black,
+                color: burger ? btnColor : Colors.black,
                 fit: BoxFit.cover,
               ),
             ),
@@ -168,14 +174,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                      width: 1, color: pizza ? Colors.white : Colors.black),
+                       width: 1, color: pizza ? btnColor : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: pizza ? Colors.black : Colors.black12),
+                  color: pizza ? Colors.black : btnColor.withOpacity(0.3,),),
               child: Image.asset(
                 "assets/images/pizza.png",
                 height: 30,
                 width: 30,
-                color: pizza ? Colors.white : Colors.black,
+                color: pizza ? btnColor : Colors.black,
                 fit: BoxFit.cover,
               ),
             ),
@@ -197,14 +203,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                      width: 1, color: salad ? Colors.white : Colors.black),
+                     width: 1, color: salad ? btnColor : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: salad ? Colors.black : Colors.black12),
+                  color: salad ? Colors.black : btnColor.withOpacity(0.3,),),
               child: Image.asset(
                 "assets/images/salad.png",
                 height: 30,
                 width: 30,
-                color: salad ? Colors.white : Colors.black,
+                color: salad ? btnColor : Colors.black,
                 fit: BoxFit.cover,
               ),
             ),
@@ -232,10 +238,10 @@ class FoodCustomTile extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               width: 0.5,
-              color: Colors.black,
+              color: btnColor,
             ),
             borderRadius: BorderRadius.circular(12),
-            color: Colors.grey.shade100,
+            color: btnColor.withOpacity(0.2),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,10 +317,10 @@ class FoodCard extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(
                   width: 0.5,
-                  color: Colors.black,
+                  color: btnColor,
                 ),
                 borderRadius: BorderRadius.circular(12),
-                color: Colors.grey.shade100),
+                color: btnColor.withOpacity(0.2)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

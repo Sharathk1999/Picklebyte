@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:yumbite/core/colors.dart';
 import 'package:yumbite/pages/home.dart';
 import 'package:yumbite/pages/order.dart';
 import 'package:yumbite/pages/profile.dart';
@@ -38,8 +39,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
      
       bottomNavigationBar: CurvedNavigationBar(
         height: 55,
-        backgroundColor: Colors.white,
-        color: Colors.black87,
+        backgroundColor: btnColor.withOpacity(0.1),
+        color: btnColor.withOpacity(0.9),
         animationDuration: const Duration(milliseconds: 300),
         onTap: (index) {
           setState(() {
