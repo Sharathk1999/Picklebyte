@@ -3,10 +3,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:random_string/random_string.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yumbite/core/colors.dart';
 import 'package:yumbite/pages/bottom_nav_bar.dart';
 import 'package:yumbite/pages/login_page.dart';
+import 'package:yumbite/services/db_service.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
 class SignUp extends StatefulWidget {
@@ -47,6 +49,17 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         );
+        String id = randomAlphaNumeric(10);
+
+        //save user info
+        Map<String, dynamic> userInfo={
+          "name":nameController.text.trim(),
+          "email":emailController.text.trim(),
+          "walletBalance":"0",
+          "id":id,
+        };
+
+        await DataBaseServiceMethods().addUserInfo(userInfo, id);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
