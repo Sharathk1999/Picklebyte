@@ -8,4 +8,10 @@ class DataBaseServiceMethods {
         .doc(id)
         .set(userInfo);
   }
+  //func to update wallet amount in firebase
+  Future updateWalletAmount({required String id,required String walletAmount}) async {
+    return await FirebaseFirestore.instance.collection("users").doc(id).update({
+      "walletBalance": walletAmount,
+    });
+  }
 }

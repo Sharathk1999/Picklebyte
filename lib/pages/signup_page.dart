@@ -9,6 +9,7 @@ import 'package:yumbite/core/colors.dart';
 import 'package:yumbite/pages/bottom_nav_bar.dart';
 import 'package:yumbite/pages/login_page.dart';
 import 'package:yumbite/services/db_service.dart';
+import 'package:yumbite/services/shared_preference.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
 class SignUp extends StatefulWidget {
@@ -59,7 +60,15 @@ class _SignUpState extends State<SignUp> {
           "id":id,
         };
 
+        //store user info to firebase
         await DataBaseServiceMethods().addUserInfo(userInfo, id);
+
+        //store user info to shared prefs
+        await SharedPrefHelper().saveUserId(id);
+        await SharedPrefHelper().saveUserName(nameController.text.trim());
+        await SharedPrefHelper().saveUserEmail(emailController.text.trim());
+        await SharedPrefHelper().saveUserWalletInfo("0");
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

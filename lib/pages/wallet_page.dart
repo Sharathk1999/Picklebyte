@@ -10,16 +10,44 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:yumbite/core/colors.dart';
+import 'package:yumbite/services/db_service.dart';
+import 'package:yumbite/services/shared_preference.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
 class Wallet extends StatefulWidget {
   const Wallet({super.key});
 
   @override
-  State<Wallet> createState() => _WalletState();
+  State<Wallet> createState() => preferred();
 }
 
-class _WalletState extends State<Wallet> {
+class preferred extends State<Wallet> {
+  //for storing wallet Info from shared prefs
+  String? wallet;
+  String? id;
+
+  //for calculating wallet money
+  int? add;
+
+  //get wallet info from shared prefs
+  getSharedPrefs() async {
+    wallet = await SharedPrefHelper().getUserWalletInfo();
+    id = await SharedPrefHelper().getUserId();
+    setState(() {});
+  }
+
+  //toLoad shared prefs on wallet page initState
+  onPageActive() async {
+    await getSharedPrefs();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    onPageActive();
+  }
+
   TextEditingController amountController = TextEditingController();
 
   Map<String, dynamic>? paymentIntent;
@@ -82,7 +110,7 @@ class _WalletState extends State<Wallet> {
                           height: 5.0,
                         ),
                         Text(
-                          "₹ 100",
+                          "₹ $wallet",
                           style: HelperWidget.boldTextStyle(),
                         )
                       ],
@@ -189,7 +217,7 @@ class _WalletState extends State<Wallet> {
               ),
               GestureDetector(
                 onTap: () {
-                  openEdit();
+                  addWalletMoney();
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -238,6 +266,14 @@ class _WalletState extends State<Wallet> {
   displayPaymentSheet(String amount) async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) async {
+        //!Update Alert
+        //adding total amount to wallet into shared prefs
+        add = int.parse(wallet!) + int.parse(amount);
+        await SharedPrefHelper().saveUserWalletInfo(add.toString());
+        //wallet amount firebase update
+        await DataBaseServiceMethods()
+            .updateWalletAmount(id: id!, walletAmount: add.toString());
+
         showDialog(
             context: context,
             builder: (_) => const AlertDialog(
@@ -250,12 +286,14 @@ class _WalletState extends State<Wallet> {
                             CupertinoIcons.checkmark_seal,
                             color: Colors.green,
                           ),
-                          Text("Payment Successfull"),
+                          Text("Payment Successful"),
                         ],
                       ),
                     ],
                   ),
                 ));
+        //after payment successful update wallet amount(line:33)
+        await getSharedPrefs();
 
         paymentIntent = null;
       }).onError((error, stackTrace) {
@@ -291,14 +329,14 @@ class _WalletState extends State<Wallet> {
         },
         body: body,
       );
-     
+
       log('Payment Intent Body->>> ${response.body.toString()}');
       return jsonDecode(response.body);
     } catch (err) {
-     
       log('Error charging user: ${err.toString()}');
     }
   }
+
   //calculate amount
   calculateAmount(String amount) {
     final calculatedAmount = (int.parse(amount)) * 100;
@@ -306,7 +344,8 @@ class _WalletState extends State<Wallet> {
     return calculatedAmount.toString();
   }
 
-  Future openEdit() => showDialog(
+  //for adding user preferred money
+  Future addWalletMoney() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
           content: SingleChildScrollView(
@@ -317,10 +356,14 @@ class _WalletState extends State<Wallet> {
                   Row(
                     children: [
                       GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(Icons.cancel)),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          CupertinoIcons.xmark_circle,
+                          color: btnColor,
+                        ),
+                      ),
                       const SizedBox(
                         width: 60.0,
                       ),
@@ -328,6 +371,7 @@ class _WalletState extends State<Wallet> {
                         child: Text(
                           "Add Money",
                           style: TextStyle(
+                            fontFamily: 'Lato',
                             color: btnColor,
                             fontWeight: FontWeight.bold,
                           ),
@@ -338,7 +382,12 @@ class _WalletState extends State<Wallet> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  const Text("Amount"),
+                  const Text(
+                    "Amount",
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                    ),
+                  ),
                   const SizedBox(
                     height: 10.0,
                   ),
@@ -347,8 +396,10 @@ class _WalletState extends State<Wallet> {
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black38, width: 2.0),
                         borderRadius: BorderRadius.circular(10)),
+                        //to get the user input image
                     child: TextField(
                       controller: amountController,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Enter your amount'),
@@ -357,10 +408,12 @@ class _WalletState extends State<Wallet> {
                   const SizedBox(
                     height: 20.0,
                   ),
+                  //pay btn to process stripe payment
                   Center(
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
+                        processPayment(amountController.text.trim());
                       },
                       child: Container(
                         width: 100,
@@ -372,7 +425,8 @@ class _WalletState extends State<Wallet> {
                         child: const Center(
                             child: Text(
                           "Pay",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              fontFamily: 'Lato', color: Colors.white),
                         )),
                       ),
                     ),
