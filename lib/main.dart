@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:yumbite/admin/login_admin_page.dart';
+import 'package:yumbite/pages/bottom_nav_bar.dart';
 
 import 'firebase_options.dart';
 
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const AdminLoginPage(),
+      home: const BottomNavBar(),
     );
   }
 }
