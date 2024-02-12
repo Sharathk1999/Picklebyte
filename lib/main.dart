@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:yumbite/pages/onboard_page.dart';
+import 'package:yumbite/admin/login_admin_page.dart';
 
 import 'firebase_options.dart';
 
@@ -39,13 +39,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp(     
       debugShowCheckedModeBanner: false,
       title: 'yumbite',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const OnboardPage(),
+      home: const AdminLoginPage(),
     );
   }
 }

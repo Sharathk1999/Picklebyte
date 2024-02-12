@@ -14,4 +14,11 @@ class DataBaseServiceMethods {
       "walletBalance": walletAmount,
     });
   }
+
+  //adds food item to db
+  Future addFoodItemToDB(Map<String, dynamic> userInfo, String name) async {
+    return await FirebaseFirestore.instance
+        .collection(name)
+        .add(userInfo);
+  }
 }
