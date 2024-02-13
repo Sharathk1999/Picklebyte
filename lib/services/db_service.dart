@@ -21,4 +21,10 @@ class DataBaseServiceMethods {
         .collection(name)
         .add(userInfo);
   }
+
+  //get food items from db
+  Future<Stream<QuerySnapshot>> fetchFoodItem(String name)async{
+    // ignore: await_only_futures
+    return await FirebaseFirestore.instance.collection(name).snapshots();
+  }
 }

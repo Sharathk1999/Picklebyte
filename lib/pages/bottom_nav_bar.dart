@@ -23,6 +23,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   late OrderPage orderPage;
   late Wallet wallet;
 
+ 
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +33,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     wallet = const Wallet();
     profilePage = const ProfilePage();
     pages = [homePage, orderPage, profilePage, wallet];
+   
   }
 
   @override

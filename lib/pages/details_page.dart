@@ -2,19 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+ final String name;
+ final String description;
+ final String price;
+ final String image;
+  const DetailsScreen({super.key,required this.name, required this.description, required this.price, required this.image,});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  //food item quantity
   int quantity = 1;
+  //total amount
+  int total = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    total=int.parse(widget.price);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(top: 50, left: 20, right: 10),
+        margin: const EdgeInsets.only(top: 50, left: 20, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -26,24 +39,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Icons.arrow_back_ios_new_rounded,
               ),
             ),
-            Image.asset(
-              "assets/images/salad2.png",
-              height: MediaQuery.of(context).size.height / 2.5,
-              width: MediaQuery.of(context).size.width / 1.2,
-              fit: BoxFit.fill,
+             const SizedBox(height: 10,),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+               widget.image,
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
             ),
+            const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Text(
+                    //   "Kerala Authentic",
+                    //   style: HelperWidget.semiBoldTextStyle(),
+                    // ),
                     Text(
-                      "Kerala Authentic",
-                      style: HelperWidget.semiBoldTextStyle(),
-                    ),
-                    Text(
-                      "Pickled Salad",
+                      widget.name,
                       style: HelperWidget.boldTextStyle(),
                     ),
                   ],
@@ -52,8 +70,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 //! remove
                 GestureDetector(
                   onTap: () {
+                    //reducing the food quantity
                     if (quantity > 1) {
                       --quantity;
+                      total-= int.parse(widget.price);
                     }
                     setState(() {});
                   },
@@ -83,7 +103,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 //! add
                 GestureDetector(
                   onTap: () {
+                    //increasing the food quantity
                     ++quantity;
+                    total+=int.parse(widget.price);
                     setState(() {});
                   },
                   child: Container(
@@ -105,7 +127,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               height: 15,
             ),
             Text(
-              "Tangy, spicy, and oh-so-satisfying, homemade mongo pickle is a beloved condiment in many cultures. Made with young green mangoes, this pickle is bursting with flavor and probiotic goodness. The mangoes are pickled in a brine of spices like turmeric, chili powder, and fenugreek,",
+              widget.description,
               style: HelperWidget.lightTextStyle(),
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
@@ -145,7 +167,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Total Price",style: HelperWidget.semiBoldTextStyle(),),
-                      Text("₹50",style: HelperWidget.boldTextStyle(),),
+                      Text("₹ $total",style: HelperWidget.boldTextStyle(),),
                     ],
                   ),
                   Material(

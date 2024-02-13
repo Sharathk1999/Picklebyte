@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yumbite/core/colors.dart';
 import 'package:yumbite/pages/details_page.dart';
+import 'package:yumbite/services/db_service.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
 class Home extends StatefulWidget {
@@ -11,7 +13,68 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  //for category icons
   bool iceCream = false, burger = false, pizza = false, salad = true;
+
+  //food items from db
+  Stream? foodItemsStream;
+
+  //on page loading
+  onPageLoad()async{
+    foodItemsStream = await DataBaseServiceMethods().fetchFoodItem("Salad");
+    //for fast loading data in home page
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    onPageLoad();
+    }
+
+  Widget allFoodItems(){
+    return StreamBuilder(stream: foodItemsStream, builder: (context, snapshot) {
+      return snapshot.hasData? ListView.builder(
+         padding: EdgeInsets.zero,
+        itemCount: snapshot.data.docs.length,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+        DocumentSnapshot docSnap = snapshot.data.docs[index];
+          return FoodCard(
+            name: docSnap["name"],
+            description: docSnap["description"],
+            price: docSnap["price"],
+            image: docSnap["image"],
+          );
+      },) : const Center(child: CircularProgressIndicator());
+    },);
+  }
+
+   Widget allFoodItemsTileCard(){
+    return StreamBuilder(stream: foodItemsStream, builder: (context, snapshot) {
+      return snapshot.hasData ? ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: snapshot.data.docs.length,
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+        DocumentSnapshot docSnap = snapshot.data.docs[index];
+          return FoodCustomTile(
+            name: docSnap["name"],
+            description: docSnap["description"],
+            price: docSnap["price"],
+            image: docSnap["image"],
+          );
+      },) : const Center(child: CircularProgressIndicator());
+    },);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +104,7 @@ class _HomeState extends State<Home> {
                       color: btnColor.withOpacity(0.3,),),
                   child: const Icon(
                     Icons.shopping_cart_rounded,
-                    color: Colors.black,
+                    color: btnColor,
                   ),
                 ),
               ],
@@ -70,26 +133,17 @@ class _HomeState extends State<Home> {
               height: 15,
             ),
             //ready to order foods
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(4, (index) {
-                  return const FoodCard();
-                }),
-              ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.30,
+           
+            
+              child: allFoodItems(),
             ),
+            
             const SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return const FoodCustomTile();
-                },
-              ),
-            ),
+             allFoodItemsTileCard(),
           ],
         ),
       ),
@@ -102,11 +156,12 @@ class _HomeState extends State<Home> {
       children: [
         //! Ice Cream
         GestureDetector(
-          onTap: () {
+          onTap: ()async {
             iceCream = true;
             burger = false;
             pizza = false;
             salad = false;
+            foodItemsStream = await DataBaseServiceMethods().fetchFoodItem("Ice Cream");
             setState(() {});
           },
           child: Material(
@@ -116,14 +171,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                      width: 1, color: iceCream ? btnColor : btnColor.withOpacity(0.5,),),
+                      width: 1, color: iceCream ? Colors.white : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: iceCream ? Colors.black : btnColor.withOpacity(0.3)),
+                  color: iceCream ? btnColor : btnColor.withOpacity(0.3)),
               child: Image.asset(
                 "assets/images/ice-cream.png",
                 height: 30,
                 width: 30,
-                color: iceCream ? btnColor : Colors.black,
+                color: iceCream ? Colors.white : btnColor,
                 fit: BoxFit.cover,
               ),
             ),
@@ -131,11 +186,12 @@ class _HomeState extends State<Home> {
         ),
         //! Burger
         GestureDetector(
-          onTap: () {
+          onTap: ()async {
             iceCream = false;
             burger = true;
             pizza = false;
             salad = false;
+            foodItemsStream = await DataBaseServiceMethods().fetchFoodItem("Burger");
             setState(() {});
           },
           child: Material(
@@ -145,14 +201,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                       width: 1, color: burger ? btnColor : btnColor.withOpacity(0.5,),),
+                       width: 1, color: burger ? Colors.white : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: burger ? Colors.black : btnColor.withOpacity(0.3,),),
+                  color: burger ? btnColor : btnColor.withOpacity(0.3,),),
               child: Image.asset(
                 "assets/images/burger.png",
                 height: 30,
                 width: 30,
-                color: burger ? btnColor : Colors.black,
+                color: burger ? Colors.white : btnColor,
                 fit: BoxFit.cover,
               ),
             ),
@@ -160,11 +216,12 @@ class _HomeState extends State<Home> {
         ),
         //! Pizza
         GestureDetector(
-          onTap: () {
+          onTap: () async{
             iceCream = false;
             burger = false;
             pizza = true;
             salad = false;
+            foodItemsStream = await DataBaseServiceMethods().fetchFoodItem("Pizza");
             setState(() {});
           },
           child: Material(
@@ -174,14 +231,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                       width: 1, color: pizza ? btnColor : btnColor.withOpacity(0.5,),),
+                       width: 1, color: pizza ? Colors.white : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: pizza ? Colors.black : btnColor.withOpacity(0.3,),),
+                  color: pizza ? btnColor : btnColor.withOpacity(0.3,),),
               child: Image.asset(
                 "assets/images/pizza.png",
                 height: 30,
                 width: 30,
-                color: pizza ? btnColor : Colors.black,
+                color: pizza ? Colors.white : btnColor,
                 fit: BoxFit.cover,
               ),
             ),
@@ -189,11 +246,12 @@ class _HomeState extends State<Home> {
         ),
         //! Salad
         GestureDetector(
-          onTap: () {
+          onTap: ()async {
             iceCream = false;
             burger = false;
             pizza = false;
             salad = true;
+            foodItemsStream = await DataBaseServiceMethods().fetchFoodItem("Salad");
             setState(() {});
           },
           child: Material(
@@ -203,14 +261,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(
-                     width: 1, color: salad ? btnColor : btnColor.withOpacity(0.5,),),
+                     width: 1, color: salad ? Colors.white : btnColor.withOpacity(0.5,),),
                   borderRadius: BorderRadius.circular(50),
-                  color: salad ? Colors.black : btnColor.withOpacity(0.3,),),
+                  color: salad ? btnColor : btnColor.withOpacity(0.3,),),
               child: Image.asset(
                 "assets/images/salad.png",
                 height: 30,
                 width: 30,
-                color: salad ? btnColor : Colors.black,
+                color: salad ? Colors.white : btnColor,
                 fit: BoxFit.cover,
               ),
             ),
@@ -222,8 +280,16 @@ class _HomeState extends State<Home> {
 }
 
 class FoodCustomTile extends StatelessWidget {
+   final String name;
+  final String price;
+  final String description;
+  final String image;
   const FoodCustomTile({
     super.key,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.image,
   });
 
   @override
@@ -246,11 +312,14 @@ class FoodCustomTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                "assets/images/salad4.png",
-                height: 100,
-                width: 100,
-                fit: BoxFit.cover,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  image,
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.cover,
+                ),
               ),
               const SizedBox(
                 width: 10,
@@ -260,25 +329,28 @@ class FoodCustomTile extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: Text(
-                      "Raw mango pickle from kuttanadu",
+                      name,
                       style: HelperWidget.semiBoldTextStyle(),
                     ),
                   ),
                   const SizedBox(
-                    height: 2.5,
+                    height: 5,
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: Text(
-                      "Native mango",
+                      description,
                       style: HelperWidget.lightTextStyle(),
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: Text(
-                      "₹ 60",
-                      style: HelperWidget.lightTextStyle(),
+                      "₹ $price",
+                      style: HelperWidget.semiBoldTextStyle(),
                     ),
                   ),
                 ],
@@ -292,8 +364,16 @@ class FoodCustomTile extends StatelessWidget {
 }
 
 class FoodCard extends StatelessWidget {
+  final String name;
+  final String price;
+  final String description;
+  final String image;
   const FoodCard({
     super.key,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.image,
   });
 
   @override
@@ -303,7 +383,7 @@ class FoodCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const DetailsScreen(),
+            builder: (context) =>  DetailsScreen(name: name, description: description, price: price, image: image),
           ),
         );
       },
@@ -313,7 +393,7 @@ class FoodCard extends StatelessWidget {
           elevation: 4,
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
                 border: Border.all(
                   width: 0.5,
@@ -324,22 +404,25 @@ class FoodCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  "assets/images/salad2.png",
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.cover,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    image,
+                    height: 120,
+                    width: 150,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Text(
-                  "Veggie Pickle",
+                  name,
                   style: HelperWidget.semiBoldTextStyle(),
                 ),
                 Text(
-                  "Healthy and Fresh",
+                  description,
                   style: HelperWidget.lightTextStyle(),
                 ),
                 Text(
-                  "₹ 50",
+                  "₹ $price",
                   style: HelperWidget.semiBoldTextStyle(),
                 ),
               ],
