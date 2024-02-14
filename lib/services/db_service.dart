@@ -27,4 +27,12 @@ class DataBaseServiceMethods {
     // ignore: await_only_futures
     return await FirebaseFirestore.instance.collection(name).snapshots();
   }
+
+   //adds food item to cart in db
+  Future addFoodItemToCart(Map<String, dynamic> foodInfo, String id) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id).collection("cart")
+        .add(foodInfo);
+  }
 }

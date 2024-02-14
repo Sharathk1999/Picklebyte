@@ -1,12 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:yumbite/services/db_service.dart';
+import 'package:yumbite/services/shared_preference.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
 class DetailsScreen extends StatefulWidget {
- final String name;
- final String description;
- final String price;
- final String image;
-  const DetailsScreen({super.key,required this.name, required this.description, required this.price, required this.image,});
+  final String name;
+  final String description;
+  final String price;
+  final String image;
+  const DetailsScreen({
+    super.key,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.image,
+  });
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -18,11 +28,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
   //total amount
   int total = 0;
 
+  //user id from shared pref
+  String? id;
+
+  getUserIdFromSharedPref() async {
+    id = await SharedPrefHelper().getUserId();
+    setState(() {});
+  }
+
+  onPageLoad() async {
+    await getUserIdFromSharedPref();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
-    total=int.parse(widget.price);
+    onPageLoad();
+    total = int.parse(widget.price);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +64,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Icons.arrow_back_ios_new_rounded,
               ),
             ),
-             const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-               widget.image,
+                widget.image,  
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -73,7 +102,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     //reducing the food quantity
                     if (quantity > 1) {
                       --quantity;
-                      total-= int.parse(widget.price);
+                      total -= int.parse(widget.price);
                     }
                     setState(() {});
                   },
@@ -105,7 +134,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   onTap: () {
                     //increasing the food quantity
                     ++quantity;
-                    total+=int.parse(widget.price);
+                    total += int.parse(widget.price);
                     setState(() {});
                   },
                   child: Container(
@@ -166,23 +195,55 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Total Price",style: HelperWidget.semiBoldTextStyle(),),
-                      Text("₹ $total",style: HelperWidget.boldTextStyle(),),
+                      Text(
+                        "Total Price",
+                        style: HelperWidget.semiBoldTextStyle(),
+                      ),
+                      Text(
+                        "₹ $total",
+                        style: HelperWidget.boldTextStyle(),
+                      ),
                     ],
                   ),
-                  Material(
+                  GestureDetector(
+                     onTap: () async {
+                      log("added to cart");
+                    //upload food item to cart
+                    Map<String, dynamic> addToCart = {
+                      "name": widget.name,
+                      "image": widget.image,
+                      "quantity": quantity.toString(),
+                      "total_price": total.toString(),
+                    };
+                  
+                    await DataBaseServiceMethods()
+                        .addFoodItemToCart(addToCart, id!);
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.green.shade500,
+                        content:  Text(
+                          "${widget.name} added to cart...🛒",
+                          style: const TextStyle(fontFamily: 'Lato', fontSize: 18),
+                        ),
+                      ),
+                    );
+                  },
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1,color: Colors.white),
+                        border: Border.all(width: 1, color: Colors.white),
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.black,
                       ),
-                      child: const Text("Add to 🛒",style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "Lato",
-                        fontSize: 18,
-                      ),),
+                      child: const Text(
+                        "Add to 🛒",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Lato",
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   )
                 ],

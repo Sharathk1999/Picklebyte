@@ -7,6 +7,7 @@ class SharedPrefHelper {
   static String userName= "USERNAME";
   static String userEmail= "USEREMAIL";
   static String userWalletInfo= "USERWALLET";
+  static String userProfile= "USERPROFILE";
 
   /* Saving user info to shared prefs */
   Future<bool> saveUserId(String id)async{
@@ -29,6 +30,11 @@ class SharedPrefHelper {
     return preferences.setString(userWalletInfo, walletInfo);
   }
 
+   Future<bool> saveUserProfileInfo(String userProfileInfo)async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.setString(userProfile, userProfileInfo);
+  }
+
   /* Retrieving user info from shared prefs */
   Future<String?> getUserId()async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -45,6 +51,11 @@ class SharedPrefHelper {
   Future<String?> getUserWalletInfo()async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(userWalletInfo);
+  }
+
+   Future<String?> getUserProfileInfo()async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(userProfile);
   }
 
 }
