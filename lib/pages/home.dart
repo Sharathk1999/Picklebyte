@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yumbite/core/colors.dart';
 import 'package:yumbite/pages/details_page.dart';
+import 'package:yumbite/pages/order.dart';
 import 'package:yumbite/services/db_service.dart';
 import 'package:yumbite/widgets/helper_widget.dart';
 
@@ -95,16 +96,21 @@ class _HomeState extends State<Home> {
                   style: HelperWidget.boldTextStyle(),
                 ),
                 //cart icon to visit cart
-                Container(
-                  margin: const EdgeInsets.only(right: 10,top: 5),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1,color: btnColor.withOpacity(0.5,)),
-                      borderRadius: BorderRadius.circular(50),
-                      color: btnColor.withOpacity(0.3,),),
-                  child: const Icon(
-                    Icons.shopping_cart_rounded,
-                    color: btnColor,
+                GestureDetector(
+                  onTap: () {
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const OrderPage(),)); 
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 10,top: 5),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1,color: btnColor.withOpacity(0.5,)),
+                        borderRadius: BorderRadius.circular(50),
+                        color: btnColor.withOpacity(0.3,),),
+                    child: const Icon(
+                      Icons.shopping_cart_rounded,
+                      color: btnColor,
+                    ),
                   ),
                 ),
               ],
@@ -133,9 +139,9 @@ class _HomeState extends State<Home> {
               height: 15,
             ),
             //ready to order foods
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.30,
-           
+              
             
               child: allFoodItems(),
             ),
@@ -419,6 +425,8 @@ class FoodCard extends StatelessWidget {
                 ),
                 Text(
                   description,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
                   style: HelperWidget.lightTextStyle(),
                 ),
                 Text(

@@ -35,4 +35,10 @@ class DataBaseServiceMethods {
         .doc(id).collection("cart")
         .add(foodInfo);
   }
+
+   //get cart from db
+  Future<Stream<QuerySnapshot>> fetchCart(String id)async{
+    // ignore: await_only_futures
+    return await FirebaseFirestore.instance.collection("users").doc(id).collection("cart").snapshots();
+  }
 }

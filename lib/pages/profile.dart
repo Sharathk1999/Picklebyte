@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
 import 'package:yumbite/core/colors.dart';
+import 'package:yumbite/services/auth_service.dart';
 import 'package:yumbite/services/shared_preference.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -170,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             const Icon(
                               CupertinoIcons.person,
-                              color: Colors.black,
+                              color: btnColor,
                             ),
                             const SizedBox(
                               width: 20.0,
@@ -221,7 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             const Icon(
                               CupertinoIcons.mail,
-                              color: Colors.black,
+                              color: btnColor,
                             ),
                             const SizedBox(
                               width: 20.0,
@@ -272,7 +273,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             Icon(
                               CupertinoIcons.doc_plaintext,
-                              color: Colors.black,
+                              color: btnColor,
                             ),
                             SizedBox(
                               width: 20.0,
@@ -285,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   style: TextStyle(
                                       fontFamily: 'Lato',
                                       color: Colors.black,
-                                      fontSize: 20.0,
+                                      fontSize: 18.0,
                                       fontWeight: FontWeight.w600),
                                 )
                               ],
@@ -299,7 +300,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 30.0,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      AuthServiceHelper().deleteUser();
+                    },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Material(
@@ -317,7 +320,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Icon(
                                 CupertinoIcons.delete,
-                                color: Colors.black,
+                                color: btnColor,
                               ),
                               SizedBox(
                                 width: 20.0,
@@ -330,7 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(
                                         fontFamily: 'Lato',
                                         color: Colors.black,
-                                        fontSize: 20.0,
+                                        fontSize: 18.0,
                                         fontWeight: FontWeight.w600),
                                   )
                                 ],
@@ -345,7 +348,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 30.0,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                       AuthServiceHelper().userSignOut();
+                    },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Material(
@@ -363,7 +368,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Icon(
                                 Icons.door_back_door_outlined,
-                                color: Colors.black,
+                                color: btnColor,
                               ),
                               SizedBox(
                                 width: 20.0,
@@ -372,11 +377,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Logout",
+                                    "Sign Out",
                                     style: TextStyle(
                                         fontFamily: 'Lato',
                                         color: Colors.black,
-                                        fontSize: 20.0,
+                                        fontSize: 18.0,
                                         fontWeight: FontWeight.w600),
                                   )
                                 ],
